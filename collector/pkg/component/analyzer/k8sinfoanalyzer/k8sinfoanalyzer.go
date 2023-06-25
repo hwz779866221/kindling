@@ -1,6 +1,7 @@
 package k8sinfoanalyzer
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Kindling-project/kindling/collector/pkg/component"
@@ -45,6 +46,7 @@ func (a *K8sInfoAnalyzer) sendToNextConsumer() {
 				for _, nextConsumer := range a.nextConsumers {
 					for _, dataGroup := range dataGroups {
 						nextConsumer.Consume(dataGroup)
+						fmt.Print("```````````````定时任务````````````````")
 						if ce := a.telemetry.Logger.Check(zapcore.DebugLevel, ""); ce != nil {
 							a.telemetry.Logger.Debug("K8sInfoAnalyzer send to consumer workload name=:\n" +
 								dataGroup.Labels.GetStringValue(constlabels.WorkloadName))
