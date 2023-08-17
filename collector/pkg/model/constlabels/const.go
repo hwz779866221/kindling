@@ -8,6 +8,7 @@ const (
 )
 
 const (
+	KindlingNumber  = "kindling_mod_number"
 	Comm            = "comm"
 	Pid             = "pid"
 	RequestTid      = "request_tid"

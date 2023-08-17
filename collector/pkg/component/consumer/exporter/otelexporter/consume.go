@@ -2,6 +2,8 @@ package otelexporter
 
 import (
 	"context"
+	"github.com/Kindling-project/kindling/collector/pkg/model/constlabels"
+	"os"
 
 	"github.com/Kindling-project/kindling/collector/pkg/component/consumer/exporter/tools/adapter"
 	"github.com/Kindling-project/kindling/collector/pkg/model"
@@ -23,7 +25,7 @@ func (e *OtelExporter) Consume(dataGroup *model.DataGroup) error {
 	if ce := e.telemetry.Logger.Check(zap.DebugLevel, ""); ce != nil {
 		e.telemetry.Logger.Debug("exporter receives a dataGroup: \n" + dataGroup.String())
 	}
-
+	dataGroup.Labels.AddStringValue(constlabels.KindlingNumber, os.Getenv("kindling_mod_number"))
 	for i := 0; i < len(e.adapters); i++ {
 		results, err := e.adapters[i].Adapt(dataGroup, adapter.AttributeList)
 		if err != nil {
