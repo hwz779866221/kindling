@@ -203,7 +203,11 @@ exporters:
     # Add labels to all metrics in the format of [key: value]
     custom_labels:
     prometheus:
-      port: :9500
+      ports: 
+        1: :9800
+        2: :7800
+        3: :6800
+        4: :5800
       # with_memory sets the memory behavior of the exporter. If this is
       # true, the exporter will report metric instruments and label sets
       # that were previously reported but not updated in the most recent

@@ -70,6 +70,7 @@ func NewExporter(config interface{}, telemetry *component.TelemetryTools) export
 		telemetry.Logger.Panic("Cannot convert Component config", zap.String("componentType", Otel))
 	}
 	customLabels := make([]attribute.KeyValue, 0, len(cfg.CustomLabels))
+	customLabels = append(customLabels, attribute.String("kindling_mod_number", os.Getenv("kindling_mod_number")))
 	for k, v := range cfg.CustomLabels {
 		customLabels = append(customLabels, attribute.String(k, v))
 	}
@@ -148,7 +149,10 @@ func NewExporter(config interface{}, telemetry *component.TelemetryTools) export
 			},
 		}
 		go func() {
-			err := StartServer(exp, telemetry, cfg.PromCfg.Port)
+			if cfg.PromCfg.Ports == nil {
+				telemetry.Logger.Panic("Err! No Prometheus Ports", zap.String("exportKind", cfg.ExportKind))
+			}
+			err := StartServer(exp, telemetry, cfg.PromCfg.Ports)
 			if err != nil {
 				telemetry.Logger.Warn("error starting otelexporter prometheus server: ", zap.Error(err))
 			}

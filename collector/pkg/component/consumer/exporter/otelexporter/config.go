@@ -15,8 +15,8 @@ type Config struct {
 }
 
 type PrometheusConfig struct {
-	Port       string `mapstructure:"port,omitempty"`
-	WithMemory bool   `mapstructure:"with_memory,omitempty"`
+	Ports      map[string]string `mapstructure:"ports,omitempty"`
+	WithMemory bool              `mapstructure:"with_memory,omitempty"`
 }
 
 type OtlpGrpcConfig struct {
